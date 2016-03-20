@@ -1,0 +1,16 @@
+{
+  "name": "asys",
+  "url" : "https://github.com/benmerckx/asys",
+  "license": "MIT",
+  "tags": ["cross", "utility", "js"],
+  "description": "Asynchronous sys std module",
+  "version": "0.0.0",
+  "releasenote": "Alpha",
+  "contributors": ["benmerckx"],
+  "classPath": "src",
+  "dependencies": {
+    "tink_core": "",
+    "tink_macro": "",
+  	"tink_io": ""
+  }
+}
