@@ -106,7 +106,7 @@ class FileSystem {
 		return deleteFile(path);
 	}
 
-	public static function readDirectory(path : String): Surprise<Array<String>, Error> {
+	public static function readDirectory(path: String): Surprise<Array<String>, Error> {
 		var trigger = Future.trigger();
 		Fs.readdir(path, function(err: js.Error, files)
 			trigger.trigger(switch err {

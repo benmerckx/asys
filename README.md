@@ -20,7 +20,9 @@ There a lot of shortcuts for working with futures and surprises which you can fi
 
 #### Currently implemented
 
-All methods are handled asynchronously on node.js. On other targets most methods are implemented using `Future.sync`, in the future support for [tink_runloop](https://github.com/haxetink/tink_runloop) will be added so these may also be handled asynchronously where supported.
+All methods are handled asynchronously on node.js.  
+If `-D runloop` is defined, a worker is used on [tink_runloop](https://github.com/haxetink/tink_runloop) to get the results asynchronously.  
+On other targets all methods are implemented using `Future.sync`.
 
 ```
 sys
