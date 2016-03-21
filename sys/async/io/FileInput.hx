@@ -1,4 +1,4 @@
-package asys.io;
+package sys.async.io;
 
 #if !nodejs
 
@@ -6,7 +6,7 @@ typedef FileInput = sys.io.FileInput;
 
 #else
 
-import asys.io.FileSeek;
+import sys.async.io.FileSeek;
 import js.node.fs.ReadStream;
 import js.node.Fs;
 import js.node.Buffer;

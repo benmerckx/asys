@@ -1,4 +1,4 @@
-package asys.util;
+package asys;
 
 import haxe.macro.Context;
 import haxe.macro.Expr;

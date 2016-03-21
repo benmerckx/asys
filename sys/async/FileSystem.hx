@@ -1,14 +1,14 @@
-package asys;
+package sys.async;
 
 #if nodejs
 import js.node.Fs;
 import js.node.fs.Stats;
 #end
-import asys.FileStat;
+import sys.async.FileStat;
 
 using tink.CoreApi;
 
-@:build(asys.util.Builder.build())
+@:build(asys.Builder.build())
 class FileSystem {
 
 	public static function exists(path: String): Future<Bool> {

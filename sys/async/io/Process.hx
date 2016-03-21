@@ -1,4 +1,4 @@
-package asys.io;
+package sys.async.io;
 
 #if nodejs
 import js.Node;

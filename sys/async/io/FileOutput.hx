@@ -1,4 +1,4 @@
-package asys.io;
+package sys.async.io;
 
 #if !nodejs
 
@@ -8,7 +8,7 @@ typedef FileOutput = sys.io.FileOutput;
 
 import js.node.Fs;
 import js.node.Buffer;
-import asys.io.FileSeek;
+import sys.async.io.FileSeek;
 
 class FileOutput extends haxe.io.Output {
 

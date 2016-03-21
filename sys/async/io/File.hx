@@ -1,17 +1,17 @@
-package asys.io;
+package sys.async.io;
 
 #if nodejs
 import js.node.Fs;
 import js.node.fs.Stats;
 #end
-import asys.io.FileInput;
-import asys.io.FileOutput;
+import sys.async.io.FileInput;
+import sys.async.io.FileOutput;
 import tink.io.Sink;
 import tink.io.Source;
 
 using tink.CoreApi;
 
-@:build(asys.util.Builder.build())
+@:build(asys.Builder.build())
 class File {
 
 	public static function getContent(path: String): Surprise<String, Error> {
