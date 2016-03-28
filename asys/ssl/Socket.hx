@@ -1,8 +1,8 @@
-package sys.async.ssl;
+package asys.ssl;
 
 using tink.CoreApi;
 
-class Socket extends sys.async.net.Socket {
+class Socket extends asys.net.Socket {
 	override function createSocket() {
 		socket = cast
 			#if nodejs

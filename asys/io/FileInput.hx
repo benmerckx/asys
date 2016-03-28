@@ -1,4 +1,4 @@
-package sys.async.io;
+package asys.io;
 
 #if !nodejs
 
@@ -6,24 +6,24 @@ typedef FileInput = sys.io.FileInput;
 
 #else
 
-import sys.async.io.FileSeek;
+import asys.io.FileSeek;
 import js.node.fs.ReadStream;
 import js.node.Fs;
 import js.node.Buffer;
 
 class FileInput extends haxe.io.Input {
-	
+
 	var bufferSize = 4;
 	var bufferPos = 0;
 	var fd: Int;
 	var position = 0;
 	var buffer: js.node.Buffer;
-	
+
 	public function new(fd) {
 		this.fd = fd;
 		buffer = new Buffer(bufferSize);
 	}
-	
+
 	override public function readByte(): Int {
 		if (bufferPos == bufferSize)
 			bufferPos = 0;
@@ -32,7 +32,7 @@ class FileInput extends haxe.io.Input {
 		position++;
 		return buffer[bufferPos++];
 	}
-	
+
 	override public function readBytes(s: haxe.io.Bytes, pos: Int, len: Int): Int {
 		bufferPos = 0;
 		var b = new Buffer(len);
@@ -47,22 +47,22 @@ class FileInput extends haxe.io.Input {
 		switch pos {
 			case FileSeek.SeekBegin: position = length;
 			case FileSeek.SeekCur: position += length;
-			case FileSeek.SeekEnd: 
+			case FileSeek.SeekEnd:
 				throw 'Not implemented';
 		}
 	}
-	
+
 	public function tell()
 		return position;
-		
+
 	public function eof()
 		return buffer.length < bufferSize;
-		
+
 	override public function close() {
 		buffer = null;
 		Fs.closeSync(fd);
 	}
-	
+
 }
 
 #end

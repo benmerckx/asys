@@ -1,6 +1,6 @@
-package sys.async.net;
+package asys.net;
 
-import sys.async.net.Host;
+import asys.net.Host;
 import tink.io.Sink;
 import tink.io.Source;
 

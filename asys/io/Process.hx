@@ -1,4 +1,4 @@
-package sys.async.io;
+package asys.io;
 
 #if nodejs
 import js.Node;
@@ -16,7 +16,7 @@ class Process {
 	public var stdin(default,null): Sink;
 	var process: #if nodejs js.node.child_process.ChildProcess #else sys.io.Process #end;
 	var exitTrigger = Future.trigger();
-	
+
 	public function new(cmd: String, ?args: Array<String> ) {
 		#if nodejs
 		process = ChildProcess.spawn(cmd, args);

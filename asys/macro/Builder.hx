@@ -1,4 +1,4 @@
-package asys;
+package asys.macro;
 
 import haxe.macro.Context;
 import haxe.macro.Expr;
@@ -11,11 +11,11 @@ class Builder {
 		var fields = Context.getBuildFields();
 		return fields.map(field);
 	}
-	
+
 	static function field(field: Field) {
 		#if !nodejs
 		var module: String = Context.getLocalModule(),
-			sysModule = module.split('async.').join('');
+			sysModule = module.substr(1);
 		switch field.kind {
 			case FieldType.FFun(f):
 				switch f.ret {
@@ -54,7 +54,7 @@ class Builder {
 											var trigger = Future.trigger();
 											tink.RunLoop.current.work(function () {
 												trigger.trigger(
-													try 
+													try
 														tink.core.Outcome.Success($call)
 													catch (e: Dynamic)
 														tink.core.Outcome.Failure(new tink.core.Error(0, e))
@@ -83,7 +83,7 @@ class Builder {
 										};
 									default:
 										call = macro @:pos(f.expr.pos) {
-											try 
+											try
 												tink.core.Outcome.Success($call)
 											catch (e: Dynamic)
 												tink.core.Outcome.Failure(new tink.core.Error(0, e));
@@ -100,12 +100,12 @@ class Builder {
 		#end
 		return field;
 	}
-	
+
 	static function fieldCall(module: String, field: Field, arguments: Array<FunctionArg>): Expr
 		return (module+'.'+field.name).resolve().call(
-			arguments.map(function(arg) 
+			arguments.map(function(arg)
 				return macro $i{arg.name}
 			)
 		);
-	
+
 }

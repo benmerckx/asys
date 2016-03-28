@@ -25,21 +25,20 @@ If `-D runloop` is defined, a worker is used on [tink_runloop](https://github.co
 On other targets all methods are implemented using `Future.sync`.
 
 ```
-sys
-	async
-		io
-			File
-			FileInput
-			FileOutput
-			FileSeek
-			Process
-		net
-			Host
-			Socket
-		ssl
-			Socket
-		FileStat
-		FileSystem
+asys
+	io
+		File
+		FileInput
+		FileOutput
+		FileSeek
+		Process
+	net
+		Host
+		Socket
+	ssl
+		Socket
+	FileStat
+	FileSystem
 ```
 
 License: MIT

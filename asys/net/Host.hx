@@ -9,7 +9,7 @@ class Host {
 	var address: String;
 	var ipTrigger = Future.trigger();
 	#if !nodejs
-	@:allow(sys.async.net.Socket)
+	@:allow(asys.net.Socket)
 	var instance: sys.net.Host;
 	#end
 
