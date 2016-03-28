@@ -4,7 +4,7 @@ Asynchronous sys module for all sys targets and node.js.
 The structure mimics the haxe std sys classes. Each method has an asynchronous
 counterpart in asys. Asynchronous methods return a [`Future<Data>`](https://github.com/haxetink/tink_core#future) or a [`Surprise<Data, Error>`](https://github.com/haxetink/tink_core#surprise).
 
-For example where you would previously write 
+For example where you would previously write
 ```haxe
 trace(FileSystem.exists(path));
 ```
@@ -33,6 +33,11 @@ sys
 			FileOutput
 			FileSeek
 			Process
+		net
+			Host
+			Socket
+		ssl
+			Socket
 		FileStat
 		FileSystem
 ```
