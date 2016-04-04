@@ -4,13 +4,13 @@
   "license": "MIT",
   "tags": ["cross", "utility", "js"],
   "description": "Asynchronous sys std module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "releasenote": "Alpha",
   "contributors": ["benmerckx"],
-  "classPath": "src",
   "dependencies": {
     "tink_core": "",
     "tink_macro": "",
-  	"tink_io": ""
+    "tink_io": "",
+    "tink_streams": ""
   }
 }

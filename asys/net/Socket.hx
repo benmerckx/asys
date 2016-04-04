@@ -18,10 +18,7 @@ class Socket {
 
 	public function new() {
 		createSocket();
-		#if nodejs
-		input = Source.ofNodeStream(socket, 'socket input');
-		output = Sink.ofNodeStream(socket, 'socket output');
-		#else
+		#if !nodejs
 		output = Sink.ofOutput('socket output', socket.output);
 		input = Source.ofInput('socket input', socket.input);
 		#end
@@ -46,6 +43,8 @@ class Socket {
 		);
 		#else
 		var trigger = Future.trigger();
+		input = Source.ofNodeStream(socket, 'socket input');
+		output = Sink.ofNodeStream(socket, 'socket output');
 		socket.on('error', function(err: js.Error)
 		 	trigger.trigger(Failure(Error.withData(err.message, err)))
 		);
