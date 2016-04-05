@@ -18,10 +18,6 @@ class Socket {
 
 	public function new() {
 		createSocket();
-		#if !nodejs
-		output = Sink.ofOutput('socket output', socket.output);
-		input = Source.ofInput('socket input', socket.input);
-		#end
 	}
 
 	function createSocket() {
@@ -30,12 +26,23 @@ class Socket {
 		//socket.setBlocking(false);
 		#end
 	}
+	
+	function setStreams() {
+		#if !nodejs
+		output = Sink.ofOutput('socket output', socket.output);
+		input = Source.ofInput('socket input', socket.input);
+		#else
+		input = Source.ofNodeStream(socket, 'socket input');
+		output = Sink.ofNodeStream(socket, 'socket output');
+		#end
+	}
 
 	public function connect(host: Host, port: Int): Surprise<Noise, Error> {
 		#if !nodejs
 		return Future.sync(
 			try {
 				socket.connect(host.instance, port);
+				setStreams();
 				Success(Noise);
 			} catch (e: Dynamic) {
 				Failure(new Error(Std.string(e)));
@@ -43,8 +50,7 @@ class Socket {
 		);
 		#else
 		var trigger = Future.trigger();
-		input = Source.ofNodeStream(socket, 'socket input');
-		output = Sink.ofNodeStream(socket, 'socket output');
+		setStreams();
 		socket.on('error', function(err: js.Error)
 		 	trigger.trigger(Failure(Error.withData(err.message, err)))
 		);

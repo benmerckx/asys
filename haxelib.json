@@ -4,8 +4,8 @@
   "license": "MIT",
   "tags": ["cross", "utility", "js"],
   "description": "Asynchronous sys std module",
-  "version": "0.0.1",
-  "releasenote": "Alpha",
+  "version": "0.0.2",
+  "releasenote": "Added asys.ssl.Socket.upgrade",
   "contributors": ["benmerckx"],
   "dependencies": {
     "tink_core": "",

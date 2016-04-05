@@ -68,10 +68,12 @@ class Host {
 	}
 
 	public static function localhost() : String {
-		#if !nodejs
-		return sys.net.Host.localhost();
-		#else
+		#if nodejs
 		return js.node.Os.hostname();
+		#elseif php
+		return untyped __php__("isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost'");
+		#else
+		return sys.net.Host.localhost();
 		#end
 	}
 }
