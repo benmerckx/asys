@@ -4,13 +4,13 @@
   "license": "MIT",
   "tags": ["cross", "utility", "js"],
   "description": "Asynchronous sys std module",
-  "version": "0.0.2",
-  "releasenote": "Added asys.ssl.Socket.upgrade",
+  "version": "0.0.3",
+  "releasenote": "Update for tink_io changes",
   "contributors": ["benmerckx"],
   "dependencies": {
     "tink_core": "",
     "tink_macro": "",
-    "tink_io": "",
+    "tink_io": "0.2.0",
     "tink_streams": ""
   }
 }

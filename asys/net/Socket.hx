@@ -22,9 +22,6 @@ class Socket {
 
 	function createSocket() {
 		socket = new NativeSocket();
-		#if !nodejs
-		//socket.setBlocking(false);
-		#end
 	}
 	
 	function setStreams() {
@@ -32,8 +29,8 @@ class Socket {
 		output = Sink.ofOutput('socket output', socket.output);
 		input = Source.ofInput('socket input', socket.input);
 		#else
-		input = Source.ofNodeStream(socket, 'socket input');
-		output = Sink.ofNodeStream(socket, 'socket output');
+		input = Source.ofNodeStream('socket input', socket);
+		output = Sink.ofNodeStream('socket output', socket);
 		#end
 	}
 

@@ -82,7 +82,7 @@ class File {
 
 	public static function readStream(path: String, binary = true): Source {
 		#if nodejs
-		return Source.ofNodeStream(Fs.createReadStream(path), 'asys read stream');
+		return Source.ofNodeStream('asys read stream', Fs.createReadStream(path));
 		#else
 		return Source.ofInput('asys read stream', sys.io.File.read(path));
 		#end
@@ -90,7 +90,7 @@ class File {
 
 	public static function writeStream(path : String, binary: Bool = true): Sink {
 		#if nodejs
-		return Sink.ofNodeStream(Fs.createWriteStream(path), 'asys write stream');
+		return Sink.ofNodeStream('asys write stream', Fs.createWriteStream(path));
 		#else
 		return Sink.ofOutput('asys write stream', sys.io.File.write(path));
 		#end

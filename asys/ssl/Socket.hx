@@ -25,7 +25,7 @@ class Socket extends PlainSocket {
 			#elseif java
 				new java.net.SslSocket()
 			#else
-				#error
+				throw 'Not supported on this platform';
 			#end
 		;
 	}
@@ -56,7 +56,7 @@ class Socket extends PlainSocket {
 		socket.setStreams();
 		return socket;
 		#else
-			#error
+		throw 'Not supported on this platform';
 		#end
 	}
 	
