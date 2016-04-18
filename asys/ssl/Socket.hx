@@ -25,7 +25,7 @@ class Socket extends PlainSocket {
 			#elseif java
 				new java.net.SslSocket()
 			#else
-				throw 'Not supported on this platform';
+				null; throw 'Not supported on this platform'
 			#end
 		;
 	}
@@ -34,7 +34,7 @@ class Socket extends PlainSocket {
 	@:access(sys.ssl.Socket.SocketInput)
 	@:access(sys.ssl.Socket.SocketOutput)
 	@:access(sys.net.Socket)
-	public static function upgrade(socket: PlainSocket) {
+	public static function upgrade(socket: PlainSocket): Socket {
 		#if nodejs
 		socket.socket = js.node.Tls.connect({socket: socket.socket});
 		socket.setStreams();
