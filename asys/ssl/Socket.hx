@@ -38,10 +38,10 @@ class Socket extends PlainSocket {
 		#if nodejs
 		socket.socket = js.node.Tls.connect({socket: socket.socket});
 		socket.setStreams();
-		return socket;
+		return cast socket;
 		#elseif php
 		untyped __php__("stream_socket_enable_crypto($socket->socket->__s, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)");
-		return socket;
+		return cast socket;
 		#elseif hxssl
 		var s = new HxsslSocket();
 		s.__s = socket.socket.__s;
@@ -54,7 +54,7 @@ class Socket extends PlainSocket {
         var r: Int = HxsslSocket.SSL_connect(s.ssl);
 		socket.socket = cast s;
 		socket.setStreams();
-		return socket;
+		return cast socket;
 		#else
 		throw 'Not supported on this platform';
 		#end
