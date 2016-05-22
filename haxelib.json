@@ -4,8 +4,8 @@
   "license": "MIT",
   "tags": ["cross", "utility", "js"],
   "description": "Asynchronous sys std module",
-  "version": "0.0.4",
-  "releasenote": "Improve 'not supported' socket error message on platforms without ssl",
+  "version": "0.0.5",
+  "releasenote": "Added asys.ssl.Socket.upgrade for java",
   "contributors": ["benmerckx"],
   "dependencies": {
     "tink_core": "",

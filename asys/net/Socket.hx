@@ -15,6 +15,8 @@ class Socket {
 	public var input(default,null): Source;
 	public var output(default,null): Sink;
 	var socket: NativeSocket;
+	var host: Host;
+	var port: Int;
 
 	public function new() {
 		createSocket();
@@ -35,6 +37,8 @@ class Socket {
 	}
 
 	public function connect(host: Host, port: Int): Surprise<Noise, Error> {
+		this.host = host;
+		this.port = port;
 		#if !nodejs
 		return Future.sync(
 			try {
@@ -64,6 +68,17 @@ class Socket {
 		socket.destroy();
 		#else
 		socket.close();
+		#end
+	}
+	
+	public function setTimeout(timeout: Float) {
+		#if nodejs
+		socket.setTimeout(Std.int(timeout*1000), function() {
+			socket.emit('error', 'Socket timeout');
+			close();
+		});
+		#else
+		socket.setTimeout(timeout);
 		#end
 	}
 }

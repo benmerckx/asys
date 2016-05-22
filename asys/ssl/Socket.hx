@@ -31,8 +31,6 @@ class Socket extends PlainSocket {
 	}
 	
 	@:access(sys.ssl.Socket)
-	@:access(sys.ssl.Socket.SocketInput)
-	@:access(sys.ssl.Socket.SocketOutput)
 	@:access(sys.net.Socket)
 	public static function upgrade(socket: PlainSocket): Socket {
 		#if nodejs
@@ -55,6 +53,22 @@ class Socket extends PlainSocket {
 		socket.socket = cast s;
 		socket.setStreams();
 		return cast socket;
+		#elseif java
+		socket.input = null;
+		socket.output = null;
+		var s = new Socket();
+		s.socket = socket.socket;
+		socket.socket.sock = 
+			(untyped java.javax.net.ssl.SSLSocketFactory.getDefault()).createSocket(
+				socket.socket.sock,
+				socket.socket.sock.getInetAddress().getHostAddress(),
+				socket.socket.sock.getPort(),
+				true
+			);
+		(untyped socket.socket.sock).startHandshake();
+		s.input = new tink.io.java.JavaSource(java.nio.channels.Channels.newChannel(socket.socket.sock.getInputStream()), 'socket input');
+		s.output = new tink.io.java.JavaSink(java.nio.channels.Channels.newChannel(socket.socket.sock.getOutputStream()), 'socket out');
+		return s;
 		#else
 		throw 'Not supported on this platform';
 		#end
