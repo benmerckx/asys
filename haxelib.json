@@ -4,13 +4,13 @@
   "license": "MIT",
   "tags": ["cross", "utility", "js"],
   "description": "Asynchronous sys std module",
-  "version": "0.0.6",
-  "releasenote": "Socket setTimeout",
+  "version": "0.0.7",
+  "releasenote": "Remove explicit version dependency for tink_io",
   "contributors": ["benmerckx"],
   "dependencies": {
     "tink_core": "",
     "tink_macro": "",
-    "tink_io": "0.2.0",
+    "tink_io": "",
     "tink_streams": ""
   }
 }
