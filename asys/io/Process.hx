@@ -20,9 +20,9 @@ class Process {
 	public function new(cmd: String, ?args: Array<String> ) {
 		#if nodejs
 		process = ChildProcess.spawn(cmd, args);
-		stdin = Sink.ofNodeStream(process.stdin, 'stdin');
-		stderr = Source.ofNodeStream(process.stderr, 'stderr');
-		stdout = Source.ofNodeStream(process.stdout, 'stdout');
+		stdin = Sink.ofNodeStream('stdin', process.stdin);
+		stderr = Source.ofNodeStream('stderr', process.stderr);
+		stdout = Source.ofNodeStream('stdout', process.stdout);
 		process.on('exit', function(code, signal) {
 			exitTrigger.trigger(code);
 		});
