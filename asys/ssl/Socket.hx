@@ -38,7 +38,13 @@ class Socket extends PlainSocket {
 		socket.setStreams();
 		return cast socket;
 		#elseif php
-		untyped __php__("stream_socket_enable_crypto($socket->socket->__s, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)");
+		untyped __php__("
+			$smtp = $socket->socket->__s;
+			stream_set_blocking($smtp, true);
+			stream_context_set_option($smtp, 'ssl', 'verify_peer_name', false);
+			stream_socket_enable_crypto($smtp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+			stream_set_blocking($smtp, false);
+		");
 		return cast socket;
 		#elseif hxssl
 		var s = new HxsslSocket();

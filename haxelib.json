@@ -4,8 +4,8 @@
   "license": "MIT",
   "tags": ["cross", "utility", "js"],
   "description": "Asynchronous sys std module",
-  "version": "0.0.7",
-  "releasenote": "Remove explicit version dependency for tink_io",
+  "version": "0.0.9",
+  "releasenote": "Php ssl socket upgrade updated",
   "contributors": ["benmerckx"],
   "dependencies": {
     "tink_core": "",
