@@ -112,10 +112,10 @@ class File {
 		var called = false;
 		function done(?err: js.Error) {
 			if (called) return;
-			switch err {
+			trigger.trigger(switch err {
 				case null: Success(Noise);
 				default: Failure(Error.withData(err.message, err));
-			}
+			});
 			called = true;
 		}
 		var rd = Fs.createReadStream(srcPath);
