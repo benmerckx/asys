@@ -1,7 +1,2 @@
 /bin
-/Main.hx
-/build.hxml
-/main.js
-.*
-!/.gitignore
 *.hxproj
