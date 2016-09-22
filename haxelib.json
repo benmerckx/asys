@@ -4,8 +4,8 @@
   "license": "MIT",
   "tags": ["cross", "utility", "js"],
   "description": "Asynchronous sys std module",
-  "version": "0.0.10",
-  "releasenote": "Php ssl socket upgrade updated",
+  "version": "0.1.0",
+  "releasenote": "Remove build macro",
   "contributors": ["benmerckx"],
   "dependencies": {
     "tink_core": "",
