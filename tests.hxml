@@ -1,0 +1,4 @@
+--macro Prepare.init()
+-lib buddy
+-cp tests
+-main RunTests

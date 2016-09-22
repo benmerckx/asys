@@ -1,0 +1,102 @@
+import buddy.SingleSuite;
+
+import asys.FileSystem;
+import asys.io.File;
+
+using buddy.Should;
+using tink.CoreApi;
+
+@colorize
+class RunTests extends SingleSuite {
+	
+	public function new() {
+		describe('asys', {
+			describe('FileSystem', {
+				it('exists', function(done) {
+					FileSystem.exists('haxelib.json').handle(function(response) {
+						response.should.be(true);
+						FileSystem.exists('none').handle(function(response) {
+							response.should.be(false);
+							done();
+						});
+					});
+				});
+				
+				it('rename', function(done) {
+					FileSystem.rename('test.txt', 'test2.txt').handle(function(response) {
+						response.should.equal(Success(Noise));
+						done();
+					});
+				});
+				
+				it('stat', function(done) {
+					FileSystem.stat('none').handle(function(response) switch response {
+						case Failure(_):
+							FileSystem.stat('test2.txt').handle(function(response) switch response {
+								case Success(res):
+									res.size.should.be(2);
+									done();
+								default: fail();
+							});
+						default: fail();
+					});
+				});
+				
+				it('fullPath', function(done) {
+					FileSystem.fullPath('haxelib.json').handle(function(response) switch response {
+						case Success(res): 
+							(res.length > 'haxelib.json'.length).should.be(true);
+							done();
+						default: fail();
+					});
+				});
+				
+				it('isDirectory', function(done) {
+					FileSystem.isDirectory('tests').handle(function(response) {
+						response.should.be(true);
+						FileSystem.isDirectory('none').handle(function(response) {
+							response.should.be(false);
+							done();
+						});
+					});
+				});
+				
+				it('createDirectory', function(done) {
+					FileSystem.createDirectory('tests-dir').handle(function(response) {
+						response.should.equal(Success(Noise));
+						done();
+					});
+				});
+				
+				it('deleteFile', function(done) {
+					FileSystem.deleteFile('test2.txt').handle(function(response) {
+						response.should.equal(Success(Noise));
+						FileSystem.deleteFile('none').handle(function(response) switch response {
+							case Failure(_): done();
+							default: fail();
+						});
+					});
+				});
+				
+				it('deleteDirectory', function(done) {
+					FileSystem.deleteDirectory('tests-dir').handle(function(response) {
+						response.should.equal(Success(Noise));
+						FileSystem.deleteDirectory('tests-dir').handle(function(response) switch response {
+							case Failure(_): done();
+							default: fail();
+						});
+					});
+				});
+				
+				it('readDirectory', function(done) {
+					FileSystem.readDirectory('tests').handle(function(response) switch response {
+						case Success(list):
+							done();
+						default: fail();
+					});
+				});
+			});
+		});
+	}
+  
+}
