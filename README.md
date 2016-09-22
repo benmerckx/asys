@@ -1,5 +1,8 @@
 # asys
 
+[![Build Status](https://travis-ci.org/benmerckx/asys.svg?branch=master)](https://travis-ci.org/benmerckx/asys)
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?maxAge=2592000)](https://gitter.im/haxetink/public)
+
 Asynchronous sys module for all sys targets and node.js.
 The structure mimics the haxe std sys classes. Each method has an asynchronous
 counterpart in asys. Asynchronous methods return a [`Future<Data>`](https://github.com/haxetink/tink_core#future) or a [`Surprise<Data, Error>`](https://github.com/haxetink/tink_core#surprise).
@@ -15,13 +18,17 @@ FileSystem.exists(path).handle(function(exists)
 );
 ```
 
-There a lot of shortcuts for working with futures and surprises which you can find in the [tink_core documentation](https://github.com/haxetink/tink_core).
+Using [tink_await](https://github.com/haxetink/tink_await) this can be written as:
+```haxe
+trace(@await FileSystem.exists(path));
+```
+
+There other shortcuts for working with futures and surprises which you can find in the [tink_core documentation](https://github.com/haxetink/tink_core).
 
 
 #### Currently implemented
 
 All methods are handled asynchronously on node.js.  
-If `-D runloop` is defined, a worker is used on [tink_runloop](https://github.com/haxetink/tink_runloop) to get the results asynchronously.  
 On other targets all methods are implemented using `Future.sync`.
 
 ```

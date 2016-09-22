@@ -1,4 +1,7 @@
 import buddy.SingleSuite;
+import haxe.io.Bytes;
+import tink.io.Buffer;
+import tink.io.Source;
 
 import asys.FileSystem;
 import asys.io.File;
@@ -94,6 +97,82 @@ class RunTests extends SingleSuite {
 							done();
 						default: fail();
 					});
+				});
+			});
+			
+			describe('File', {
+				it('saveContent', function(done) {
+					File.saveContent('test.txt', 'done').handle(function(response) {
+						response.should.equal(Success(Noise));
+						done();
+					});
+				});
+				
+				it('getContent', function(done) {
+					File.getContent('test.txt').handle(function(response) switch response {
+						case Success(res):
+							res.should.be('done');
+							done();
+						default: fail();
+					});
+				});
+				
+				it('saveBytes', function(done) {
+					File.saveBytes('test.txt', Bytes.ofString('bytes')).handle(function(response) {
+						response.should.equal(Success(Noise));
+						done();
+					});
+				});
+				
+				it('getBytes', function(done) {
+					File.getBytes('test.txt').handle(function(response) switch response {
+						case Success(res):
+							res.toString().should.be('bytes');
+							done();
+						default: fail();
+					});
+				});
+				
+				it('write', function(done) {
+					File.write('test.txt').handle(function(response) switch response {
+						case Success(res):
+							res.writeBytes(Bytes.ofString('as'), 0, 2);
+							done();
+						default: fail();
+					});
+				});
+				
+				it('append', function(done) {
+					File.append('test.txt').handle(function(response) switch response {
+						case Success(res):
+							res.writeBytes(Bytes.ofString('ys'), 0, 2);
+							done();
+						default: fail();
+					});
+				});
+				
+				it('copy', function(done) {
+					File.copy('test.txt', 'test2.txt').handle(function(response) {
+						response.should.equal(Success(Noise));
+						done();
+					});
+				});
+				
+				it('read', function(done) {
+					File.read('test2.txt').handle(function(response) switch response {
+						case Success(res):
+							res.readByte().should.be('a'.code);
+							res.readByte().should.be('s'.code);
+							res.readByte().should.be('y'.code);
+							res.readByte().should.be('s'.code);
+							done();
+						default: fail();
+					});
+				});
+				
+				afterAll({
+					FileSystem.deleteFile('test2.txt').handle(function(_) null);
+					FileSystem.deleteFile('test.txt').handle(function(_) null);
 				});
 			});
 		});

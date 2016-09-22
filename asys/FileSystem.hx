@@ -8,8 +8,9 @@ import asys.FileStat;
 
 using tink.CoreApi;
 
-#if node
 class FileSystem {
+	
+	#if node
 
 	public static function exists(path: String): Future<Bool> {
 		var trigger = Future.trigger();
@@ -116,10 +117,8 @@ class FileSystem {
 		);
 		return trigger.asFuture();
 	}
-
-}
-#else
-class FileSystem {
+	
+	#else
 
 	public static function exists(path: String): Future<Bool>
 		return Future.sync(sys.FileSystem.exists(path));
@@ -187,5 +186,6 @@ class FileSystem {
 			catch(e: Dynamic) Failure(new Error('$e'))
 		);
 
+	#end
+
 }
-#end

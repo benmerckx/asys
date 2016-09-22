@@ -11,8 +11,26 @@ import tink.io.Source;
 
 using tink.CoreApi;
 
-@:build(asys.macro.Builder.build())
+
 class File {
+
+	public static function readStream(path: String, binary = true): Source {
+		#if nodejs
+		return Source.ofNodeStream('asys read stream', Fs.createReadStream(path));
+		#else
+		return Source.ofInput('asys read stream', sys.io.File.read(path));
+		#end
+	}
+
+	public static function writeStream(path : String, binary: Bool = true): Sink {
+		#if nodejs
+		return Sink.ofNodeStream('asys write stream', Fs.createWriteStream(path));
+		#else
+		return Sink.ofOutput('asys write stream', sys.io.File.write(path));
+		#end
+	}
+	
+	#if nodejs
 
 	public static function getContent(path: String): Surprise<String, Error> {
 		var trigger = Future.trigger();
@@ -80,23 +98,7 @@ class File {
 		return trigger.asFuture();
 	}
 
-	public static function readStream(path: String, binary = true): Source {
-		#if nodejs
-		return Source.ofNodeStream('asys read stream', Fs.createReadStream(path));
-		#else
-		return Source.ofInput('asys read stream', sys.io.File.read(path));
-		#end
-	}
-
-	public static function writeStream(path : String, binary: Bool = true): Sink {
-		#if nodejs
-		return Sink.ofNodeStream('asys write stream', Fs.createWriteStream(path));
-		#else
-		return Sink.ofOutput('asys write stream', sys.io.File.write(path));
-		#end
-	}
-
-	public static function append( path : String, binary : Bool = true ): Surprise<FileOutput, Error> {
+	public static function append(path : String, binary : Bool = true): Surprise<FileOutput, Error> {
 		var trigger = Future.trigger();
 		Fs.open(path, 'a', function(err: js.Error, fd: Int)
 			trigger.trigger(switch err {
@@ -129,4 +131,65 @@ class File {
 
 		return trigger.asFuture();
 	}
+	
+	#else
+	
+	public static function getContent(path: String): Surprise<String, Error>
+		return Future.sync(
+			try Success(sys.io.File.getContent(path))
+			catch(e: Dynamic) Failure(new Error('$e'))
+		);
+
+	public static function saveContent(path: String, content: String): Surprise<Noise, Error>
+		return Future.sync(
+			try {
+				sys.io.File.saveContent(path, content);
+				Success(Noise);
+			}
+			catch(e: Dynamic) Failure(new Error('$e'))
+		);
+
+	public static function getBytes(path: String): Surprise<haxe.io.Bytes, Error>
+		return Future.sync(
+			try Success(sys.io.File.getBytes(path))
+			catch(e: Dynamic) Failure(new Error('$e'))
+		);
+
+	public static function saveBytes(path: String, bytes: haxe.io.Bytes): Surprise<Noise, Error>
+		return Future.sync(
+			try {
+				sys.io.File.saveBytes(path, bytes);
+				Success(Noise);
+			}
+			catch(e: Dynamic) Failure(new Error('$e'))
+		);
+
+	public static function read(path: String, binary = true): Surprise<FileInput, Error>
+		return Future.sync(
+			try Success(sys.io.File.read(path, binary))
+			catch(e: Dynamic) Failure(new Error('$e'))
+		);
+
+	public static function write(path : String, binary: Bool = true): Surprise<FileOutput, Error>
+		return Future.sync(
+			try Success(sys.io.File.write(path, binary))
+			catch(e: Dynamic) Failure(new Error('$e'))
+		);
+
+	public static function append(path : String, binary : Bool = true): Surprise<FileOutput, Error>
+		return Future.sync(
+			try Success(sys.io.File.append(path, binary))
+			catch(e: Dynamic) Failure(new Error('$e'))
+		);
+
+	public static function copy(srcPath: String, dstPath: String): Surprise<Noise, Error>
+		return Future.sync(
+			try {
+				sys.io.File.copy(srcPath, dstPath);
+				Success(Noise);
+			}
+			catch(e: Dynamic) Failure(new Error('$e'))
+		);
+	
+	#end
 }
