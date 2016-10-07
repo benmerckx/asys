@@ -30,6 +30,7 @@ There other shortcuts for working with futures and surprises which you can find 
 
 All methods are handled asynchronously on node.js.  
 On other targets all methods are implemented using `Future.sync`.
+If used in combination with [tink_runloop](https://github.com/haxetink/tink_runloop), file io will be done asynchronously.
 
 ```
 asys

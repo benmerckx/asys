@@ -118,6 +118,94 @@ class FileSystem {
 		return trigger.asFuture();
 	}
 	
+	#elseif tink_runloop
+	
+	public static function exists(path: String): Future<Bool>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function ()
+				done(sys.FileSystem.exists(path))
+			)
+		);
+
+	public static function rename(path: String, newPath: String): Surprise<Noise, Error>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try {
+					sys.FileSystem.rename(path, newPath);
+					Success(Noise);
+				}
+				catch (e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+		
+	public static function stat(path: String): Surprise<FileStat, Error>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try Success(sys.FileSystem.stat(path))
+				catch (e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+
+	public static function fullPath(relPath: String): Surprise<String, Error>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try Success(sys.FileSystem.fullPath(relPath))
+				catch (e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+
+	public static function absolutePath(relPath: String): String
+		return sys.FileSystem.absolutePath(relPath);
+
+	public static function isDirectory(path: String): Future<Bool>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try sys.FileSystem.isDirectory(path)
+				catch (e: Dynamic) false
+			))
+		);
+
+	public static function createDirectory(path: String): Surprise<Noise, Error> 
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try {
+					sys.FileSystem.createDirectory(path);
+					Success(Noise);
+				}
+				catch (e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+
+	public static function deleteFile(path: String): Surprise<Noise, Error>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try {
+					sys.FileSystem.deleteFile(path);
+					Success(Noise);
+				}
+				catch (e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+
+	public static function deleteDirectory(path: String): Surprise<Noise, Error> 
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try {
+					sys.FileSystem.deleteDirectory(path);
+					Success(Noise);
+				}
+				catch (e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+
+	public static function readDirectory(path: String): Surprise<Array<String>, Error>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try Success(sys.FileSystem.readDirectory(path))
+				catch (e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+	
 	#else
 
 	public static function exists(path: String): Future<Bool>

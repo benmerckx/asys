@@ -1,3 +1,5 @@
+#if tink_runloop #error #end
+
 import buddy.SingleSuite;
 import haxe.io.Bytes;
 import tink.io.Buffer;

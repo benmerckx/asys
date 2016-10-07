@@ -132,6 +132,81 @@ class File {
 		return trigger.asFuture();
 	}
 	
+	#elseif tink_runloop
+	
+	public static function getContent(path: String): Surprise<String, Error>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try Success(sys.io.File.getContent(path))
+				catch (e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+
+	public static function saveContent(path: String, content: String): Surprise<Noise, Error>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try {
+					sys.io.File.saveContent(path, content);
+					Success(Noise);
+				}
+				catch (e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+
+	public static function getBytes(path: String): Surprise<haxe.io.Bytes, Error>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try Success(sys.io.File.getBytes(path))
+				catch(e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+
+	public static function saveBytes(path: String, bytes: haxe.io.Bytes): Surprise<Noise, Error>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try {
+					sys.io.File.saveBytes(path, bytes);
+					Success(Noise);
+				}
+				catch (e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+
+	public static function read(path: String, binary = true): Surprise<FileInput, Error>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try Success(sys.io.File.read(path, binary))
+				catch (e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+
+	public static function write(path : String, binary: Bool = true): Surprise<FileOutput, Error>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try Success(sys.io.File.write(path, binary))
+				catch (e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+
+	public static function append(path : String, binary : Bool = true): Surprise<FileOutput, Error>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try Success(sys.io.File.append(path, binary))
+				catch (e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+
+	public static function copy(srcPath: String, dstPath: String): Surprise<Noise, Error>
+		return Future.async(function(done)
+			tink.RunLoop.current.work(function () done(
+				try {
+					sys.io.File.copy(srcPath, dstPath);
+					Success(Noise);
+				}
+				catch (e: Dynamic) Failure(new Error('$e'))
+			))
+		);
+	
 	#else
 	
 	public static function getContent(path: String): Surprise<String, Error>
