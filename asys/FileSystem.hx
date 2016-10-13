@@ -122,14 +122,14 @@ class FileSystem {
 	
 	public static function exists(path: String): Future<Bool>
 		return Future.async(function(done)
-			tink.RunLoop.current.work(function ()
+			tink.RunLoop.current.asap(function ()
 				done(sys.FileSystem.exists(path))
 			)
 		);
 
 	public static function rename(path: String, newPath: String): Surprise<Noise, Error>
 		return Future.async(function(done)
-			tink.RunLoop.current.work(function () done(
+			tink.RunLoop.current.asap(function () done(
 				try {
 					sys.FileSystem.rename(path, newPath);
 					Success(Noise);
@@ -140,7 +140,7 @@ class FileSystem {
 		
 	public static function stat(path: String): Surprise<FileStat, Error>
 		return Future.async(function(done)
-			tink.RunLoop.current.work(function () done(
+			tink.RunLoop.current.asap(function () done(
 				try Success(sys.FileSystem.stat(path))
 				catch (e: Dynamic) Failure(new Error('$e'))
 			))
@@ -148,7 +148,7 @@ class FileSystem {
 
 	public static function fullPath(relPath: String): Surprise<String, Error>
 		return Future.async(function(done)
-			tink.RunLoop.current.work(function () done(
+			tink.RunLoop.current.asap(function () done(
 				try Success(sys.FileSystem.fullPath(relPath))
 				catch (e: Dynamic) Failure(new Error('$e'))
 			))
@@ -159,7 +159,7 @@ class FileSystem {
 
 	public static function isDirectory(path: String): Future<Bool>
 		return Future.async(function(done)
-			tink.RunLoop.current.work(function () done(
+			tink.RunLoop.current.asap(function () done(
 				try sys.FileSystem.isDirectory(path)
 				catch (e: Dynamic) false
 			))
@@ -167,7 +167,7 @@ class FileSystem {
 
 	public static function createDirectory(path: String): Surprise<Noise, Error> 
 		return Future.async(function(done)
-			tink.RunLoop.current.work(function () done(
+			tink.RunLoop.current.asap(function () done(
 				try {
 					sys.FileSystem.createDirectory(path);
 					Success(Noise);
@@ -178,7 +178,7 @@ class FileSystem {
 
 	public static function deleteFile(path: String): Surprise<Noise, Error>
 		return Future.async(function(done)
-			tink.RunLoop.current.work(function () done(
+			tink.RunLoop.current.asap(function () done(
 				try {
 					sys.FileSystem.deleteFile(path);
 					Success(Noise);
@@ -189,7 +189,7 @@ class FileSystem {
 
 	public static function deleteDirectory(path: String): Surprise<Noise, Error> 
 		return Future.async(function(done)
-			tink.RunLoop.current.work(function () done(
+			tink.RunLoop.current.asap(function () done(
 				try {
 					sys.FileSystem.deleteDirectory(path);
 					Success(Noise);
@@ -200,7 +200,7 @@ class FileSystem {
 
 	public static function readDirectory(path: String): Surprise<Array<String>, Error>
 		return Future.async(function(done)
-			tink.RunLoop.current.work(function () done(
+			tink.RunLoop.current.asap(function () done(
 				try Success(sys.FileSystem.readDirectory(path))
 				catch (e: Dynamic) Failure(new Error('$e'))
 			))
