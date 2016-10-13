@@ -36,16 +36,12 @@ class RunTests extends SingleSuite {
 				});
 				
 				it('stat', function(done) {
-					FileSystem.stat('none').handle(function(response) switch response {
-						case Failure(_):
-							FileSystem.stat('test2.txt').handle(function(response) switch response {
-								case Success(res):
-									res.size.should.be(2);
-									done();
-								default: fail();
-							});
-						default: fail();
-					});
+          FileSystem.stat('test2.txt').handle(function(response) switch response {
+            case Success(res):
+              res.size.should.be(2);
+              done();
+            default: fail();
+          });
 				});
 				
 				it('fullPath', function(done) {
