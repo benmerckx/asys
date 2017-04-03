@@ -24,6 +24,8 @@ class Socket extends PlainSocket {
 				new php.net.SslSocket()
 			#elseif java
 				new java.net.SslSocket()
+			#elseif (haxe_ver > 3.210 && (cpp || neko))
+                new sys.ssl.Socket()
 			#else
 				null; throw 'Not supported on this platform'
 			#end
