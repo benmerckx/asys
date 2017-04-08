@@ -24,8 +24,12 @@ class Socket extends PlainSocket {
 				new php.net.SslSocket()
 			#elseif java
 				new java.net.SslSocket()
-			#elseif (haxe_ver > 3.210 && (cpp || neko))
+			#elseif (haxe_ver > 3.210)
+				#if (cpp || neko)
                 new sys.ssl.Socket()
+				#else
+				null; throw 'Not supported on this platform'
+				#end
 			#else
 				null; throw 'Not supported on this platform'
 			#end
@@ -77,6 +81,22 @@ class Socket extends PlainSocket {
 		s.input = new tink.io.java.JavaSource(java.nio.channels.Channels.newChannel(socket.socket.sock.getInputStream()), 'socket input');
 		s.output = new tink.io.java.JavaSink(java.nio.channels.Channels.newChannel(socket.socket.sock.getOutputStream()), 'socket out');
 		return s;
+		#elseif (haxe_ver > 3.210)
+			#if neko
+			var s = new Socket();
+			s.socket.__s = socket.socket.__s;
+			var sslSocket = (cast s.socket: sys.ssl.Socket);
+			sslSocket.ctx = sslSocket.buildSSLContext(false);
+			var ssl = sslSocket.ssl = sys.ssl.Socket.ssl_new(sslSocket.ctx);
+			sys.ssl.Socket.ssl_set_socket(ssl, s.socket.__s);
+			if (socket.host.host != null)
+				sys.ssl.Socket.ssl_set_hostname(ssl, untyped socket.host.host.__s);
+			sslSocket.handshake();
+			s.setStreams();
+			return cast s;
+			#else
+			throw 'Not supported on this platform';
+			#end
 		#else
 		throw 'Not supported on this platform';
 		#end
