@@ -94,6 +94,18 @@ class Socket extends PlainSocket {
 			sslSocket.handshake();
 			s.setStreams();
 			return cast s;
+			#elseif cpp
+			var s = new Socket();
+			s.socket.__s = socket.socket.__s;
+			var sslSocket = (cast s.socket: sys.ssl.Socket);
+			sslSocket.conf = sslSocket.buildSSLConfig(false);
+			var ssl = sslSocket.ssl = cpp.NativeSsl.ssl_new(sslSocket.conf);
+			cpp.NativeSsl.ssl_set_socket(ssl, s.socket.__s);
+			if (socket.host.host != null)
+				cpp.NativeSsl.ssl_set_hostname(ssl, socket.host.host);
+			sslSocket.handshake();
+			s.setStreams();
+			return cast s;
 			#else
 			throw 'Not supported on this platform';
 			#end
