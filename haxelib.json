@@ -4,8 +4,8 @@
   "license": "MIT",
   "tags": ["cross", "utility", "js"],
   "description": "Asynchronous sys std module",
-  "version": "0.2.0",
-  "releasenote": "Replace runloop worker method",
+  "version": "0.3.0",
+  "releasenote": "Ssl sockets for haxe 3.3+",
   "contributors": ["benmerckx"],
   "dependencies": {
     "tink_core": "",
