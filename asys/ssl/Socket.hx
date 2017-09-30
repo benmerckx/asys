@@ -115,7 +115,7 @@ class Socket extends PlainSocket {
 	}
 	
 	#if nodejs
-	override public function connect(host: Host, port: Int): Surprise<Noise, Error> {
+	override public function connect(host: Host, port: Int): Promise<Noise> {
 		var trigger = Future.trigger();
 		socket = js.node.Tls.connect(port, host.host);
 		setStreams();

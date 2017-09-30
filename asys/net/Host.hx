@@ -52,7 +52,7 @@ class Host {
 		return address;
 	}
 
-	public function reverse(): Surprise<String, Error> {
+	public function reverse(): Promise<String> {
 		#if !nodejs
 		return Future.sync(Error.catchExceptions(instance.reverse));
 		#else

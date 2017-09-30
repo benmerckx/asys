@@ -5,7 +5,7 @@
 
 Asynchronous sys module for all sys targets and node.js.
 The structure mimics the haxe std sys classes. Each method has an asynchronous
-counterpart in asys. Asynchronous methods return a [`Future<Data>`](https://github.com/haxetink/tink_core#future) or a [`Surprise<Data, Error>`](https://github.com/haxetink/tink_core#surprise).
+counterpart in asys. Asynchronous methods return a [`Future<Data>`](https://haxetink.github.io/tink_core/#/types/future) or a [`Promise<Data>`](https://haxetink.github.io/tink_core/#/types/promise).
 
 For example where you would previously write
 ```haxe
@@ -23,7 +23,7 @@ Using [tink_await](https://github.com/haxetink/tink_await) this can be written a
 trace(@await FileSystem.exists(path));
 ```
 
-There other shortcuts for working with futures and surprises which you can find in the [tink_core documentation](https://github.com/haxetink/tink_core).
+There other shortcuts for working with futures and promises which you can find in the [tink_core documentation](https://github.com/haxetink/tink_core).
 
 
 #### Currently implemented
