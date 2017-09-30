@@ -36,7 +36,7 @@ class Socket {
 		#end
 	}
 
-	public function connect(host: Host, port: Int): Surprise<Noise, Error> {
+	public function connect(host: Host, port: Int): Promise<Noise> {
 		this.host = host;
 		this.port = port;
 		#if !nodejs
