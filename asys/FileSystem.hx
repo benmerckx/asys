@@ -20,7 +20,7 @@ class FileSystem {
 		return trigger.asFuture();
 	}
 
-	public static function rename(path: String, newPath: String): Surprise<Noise, Error> {
+	public static function rename(path: String, newPath: String): Promise<Noise> {
 		var trigger = Future.trigger();
 		Fs.rename(path, newPath, function(err)
 			trigger.trigger(switch err {
@@ -31,7 +31,7 @@ class FileSystem {
 		return trigger.asFuture();
 	}
 
-	public static function stat(path: String): Surprise<FileStat, Error> {
+	public static function stat(path: String): Promise<FileStat> {
 		var trigger = Future.trigger();
 		Fs.stat(path, function(err, stat: Stats)
 			trigger.trigger(switch err {
@@ -54,7 +54,7 @@ class FileSystem {
 		return trigger.asFuture();
 	}
 
-	public static function fullPath(relPath: String): Surprise<String, Error> {
+	public static function fullPath(relPath: String): Promise<String> {
 		var trigger = Future.trigger();
 		Fs.realpath(relPath, function(err: js.Error, path)
 			trigger.trigger(switch err {
@@ -81,7 +81,7 @@ class FileSystem {
 		return trigger.asFuture();
 	}
 
-	public static function createDirectory(path: String): Surprise<Noise, Error> {
+	public static function createDirectory(path: String): Promise<Noise> {
 		var trigger = Future.trigger();
 		Fs.mkdir(path, function(err: js.Error)
 			trigger.trigger(switch err {
@@ -92,7 +92,7 @@ class FileSystem {
 		return trigger.asFuture();
 	}
 
-	public static function deleteFile(path: String): Surprise<Noise, Error> {
+	public static function deleteFile(path: String): Promise<Noise> {
 		var trigger = Future.trigger();
 		Fs.unlink(path, function(err: js.Error)
 			trigger.trigger(switch err {
@@ -103,11 +103,11 @@ class FileSystem {
 		return trigger.asFuture();
 	}
 
-	public static function deleteDirectory(path: String): Surprise<Noise, Error> {
+	public static function deleteDirectory(path: String): Promise<Noise> {
 		return deleteFile(path);
 	}
 
-	public static function readDirectory(path: String): Surprise<Array<String>, Error> {
+	public static function readDirectory(path: String): Promise<Array<String>> {
 		var trigger = Future.trigger();
 		Fs.readdir(path, function(err: js.Error, files)
 			trigger.trigger(switch err {
@@ -127,7 +127,7 @@ class FileSystem {
 			)
 		);
 
-	public static function rename(path: String, newPath: String): Surprise<Noise, Error>
+	public static function rename(path: String, newPath: String): Promise<Noise>
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try {
@@ -138,7 +138,7 @@ class FileSystem {
 			))
 		);
 		
-	public static function stat(path: String): Surprise<FileStat, Error>
+	public static function stat(path: String): Promise<FileStat>
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try Success(sys.FileSystem.stat(path))
@@ -146,7 +146,7 @@ class FileSystem {
 			))
 		);
 
-	public static function fullPath(relPath: String): Surprise<String, Error>
+	public static function fullPath(relPath: String): Promise<String>
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try Success(sys.FileSystem.fullPath(relPath))
@@ -165,7 +165,7 @@ class FileSystem {
 			))
 		);
 
-	public static function createDirectory(path: String): Surprise<Noise, Error> 
+	public static function createDirectory(path: String): Promise<Noise> 
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try {
@@ -176,7 +176,7 @@ class FileSystem {
 			))
 		);
 
-	public static function deleteFile(path: String): Surprise<Noise, Error>
+	public static function deleteFile(path: String): Promise<Noise>
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try {
@@ -187,7 +187,7 @@ class FileSystem {
 			))
 		);
 
-	public static function deleteDirectory(path: String): Surprise<Noise, Error> 
+	public static function deleteDirectory(path: String): Promise<Noise> 
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try {
@@ -198,7 +198,7 @@ class FileSystem {
 			))
 		);
 
-	public static function readDirectory(path: String): Surprise<Array<String>, Error>
+	public static function readDirectory(path: String): Promise<Array<String>>
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try Success(sys.FileSystem.readDirectory(path))
@@ -211,7 +211,7 @@ class FileSystem {
 	public static function exists(path: String): Future<Bool>
 		return Future.sync(sys.FileSystem.exists(path));
 
-	public static function rename(path: String, newPath: String): Surprise<Noise, Error>
+	public static function rename(path: String, newPath: String): Promise<Noise>
 		return Future.sync(
 			try {
 				sys.FileSystem.rename(path, newPath);
@@ -220,13 +220,13 @@ class FileSystem {
 			catch(e: Dynamic) Failure(new Error('$e'))
 		);
 
-	public static function stat(path: String): Surprise<FileStat, Error>
+	public static function stat(path: String): Promise<FileStat>
 		return Future.sync(
 			try Success(sys.FileSystem.stat(path))
 			catch(e: Dynamic) Failure(new Error('$e'))
 		);
 
-	public static function fullPath(relPath: String): Surprise<String, Error>
+	public static function fullPath(relPath: String): Promise<String>
 		return Future.sync(
 			try Success(sys.FileSystem.fullPath(relPath))
 			catch(e: Dynamic) Failure(new Error('$e'))
@@ -241,7 +241,7 @@ class FileSystem {
 			catch(e: Dynamic) false
 		);
 
-	public static function createDirectory(path: String): Surprise<Noise, Error> 
+	public static function createDirectory(path: String): Promise<Noise> 
 		return Future.sync(
 			try {
 				sys.FileSystem.createDirectory(path);
@@ -250,7 +250,7 @@ class FileSystem {
 			catch(e: Dynamic) Failure(new Error('$e'))
 		);
 
-	public static function deleteFile(path: String): Surprise<Noise, Error>
+	public static function deleteFile(path: String): Promise<Noise>
 		return Future.sync(
 			try {
 				sys.FileSystem.deleteFile(path);
@@ -259,7 +259,7 @@ class FileSystem {
 			catch(e: Dynamic) Failure(new Error('$e'))
 		);
 
-	public static function deleteDirectory(path: String): Surprise<Noise, Error> 
+	public static function deleteDirectory(path: String): Promise<Noise> 
 		return Future.sync(
 			try {
 				sys.FileSystem.deleteDirectory(path);
@@ -268,7 +268,7 @@ class FileSystem {
 			catch(e: Dynamic) Failure(new Error('$e'))
 		);
 
-	public static function readDirectory(path: String): Surprise<Array<String>, Error>
+	public static function readDirectory(path: String): Promise<Array<String>>
 		return Future.sync(
 			try Success(sys.FileSystem.readDirectory(path))
 			catch(e: Dynamic) Failure(new Error('$e'))

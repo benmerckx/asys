@@ -32,7 +32,7 @@ class File {
 	
 	#if nodejs
 
-	public static function getContent(path: String): Surprise<String, Error> {
+	public static function getContent(path: String): Promise<String> {
 		var trigger = Future.trigger();
 		Fs.readFile(path, 'utf8', function(err: js.Error, data: String)
 			trigger.trigger(switch err {
@@ -43,7 +43,7 @@ class File {
 		return trigger.asFuture();
 	}
 
-	public static function saveContent(path: String, content: String): Surprise<Noise, Error> {
+	public static function saveContent(path: String, content: String): Promise<Noise> {
 		var trigger = Future.trigger();
 		Fs.writeFile(path, untyped content, 'utf8', function(err: js.Error)
 			trigger.trigger(switch err {
@@ -54,7 +54,7 @@ class File {
 		return trigger.asFuture();
 	}
 
-	public static function getBytes(path: String): Surprise<haxe.io.Bytes, Error> {
+	public static function getBytes(path: String): Promise<haxe.io.Bytes> {
 		var trigger = Future.trigger();
 		Fs.readFile(path, function(err: js.Error, buffer: js.node.Buffer)
 			trigger.trigger(switch err {
@@ -65,7 +65,7 @@ class File {
 		return trigger.asFuture();
 	}
 
-	public static function saveBytes(path: String, bytes: haxe.io.Bytes): Surprise<Noise, Error> {
+	public static function saveBytes(path: String, bytes: haxe.io.Bytes): Promise<Noise> {
 		var trigger = Future.trigger();
 		Fs.writeFile(path, js.node.Buffer.hxFromBytes(bytes), function(err: js.Error)
 			trigger.trigger(switch err {
@@ -76,7 +76,7 @@ class File {
 		return trigger.asFuture();
 	}
 
-	public static function read(path: String, binary = true): Surprise<FileInput, Error> {
+	public static function read(path: String, binary = true): Promise<FileInput> {
 		var trigger = Future.trigger();
 		Fs.open(path, 'r', function(err: js.Error, fd: Int)
 			trigger.trigger(switch err {
@@ -87,7 +87,7 @@ class File {
 		return trigger.asFuture();
 	}
 
-	public static function write(path : String, binary: Bool = true): Surprise<FileOutput, Error> {
+	public static function write(path : String, binary: Bool = true): Promise<FileOutput> {
 		var trigger = Future.trigger();
 		Fs.open(path, 'w', function(err: js.Error, fd: Int)
 			trigger.trigger(switch err {
@@ -98,7 +98,7 @@ class File {
 		return trigger.asFuture();
 	}
 
-	public static function append(path : String, binary : Bool = true): Surprise<FileOutput, Error> {
+	public static function append(path : String, binary : Bool = true): Promise<FileOutput> {
 		var trigger = Future.trigger();
 		Fs.open(path, 'a', function(err: js.Error, fd: Int)
 			trigger.trigger(switch err {
@@ -109,7 +109,7 @@ class File {
 		return trigger.asFuture();
 	}
 
-	public static function copy(srcPath: String, dstPath: String): Surprise<Noise, Error> {
+	public static function copy(srcPath: String, dstPath: String): Promise<Noise> {
 		var trigger = Future.trigger();
 		var called = false;
 		function done(?err: js.Error) {
@@ -134,7 +134,7 @@ class File {
 	
 	#elseif (tink_runloop && concurrent)
 	
-	public static function getContent(path: String): Surprise<String, Error>
+	public static function getContent(path: String): Promise<String>
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try Success(sys.io.File.getContent(path))
@@ -142,7 +142,7 @@ class File {
 			))
 		);
 
-	public static function saveContent(path: String, content: String): Surprise<Noise, Error>
+	public static function saveContent(path: String, content: String): Promise<Noise>
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try {
@@ -153,7 +153,7 @@ class File {
 			))
 		);
 
-	public static function getBytes(path: String): Surprise<haxe.io.Bytes, Error>
+	public static function getBytes(path: String): Promise<haxe.io.Bytes>
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try Success(sys.io.File.getBytes(path))
@@ -161,7 +161,7 @@ class File {
 			))
 		);
 
-	public static function saveBytes(path: String, bytes: haxe.io.Bytes): Surprise<Noise, Error>
+	public static function saveBytes(path: String, bytes: haxe.io.Bytes): Promise<Noise>
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try {
@@ -172,7 +172,7 @@ class File {
 			))
 		);
 
-	public static function read(path: String, binary = true): Surprise<FileInput, Error>
+	public static function read(path: String, binary = true): Promise<FileInput>
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try Success(sys.io.File.read(path, binary))
@@ -180,7 +180,7 @@ class File {
 			))
 		);
 
-	public static function write(path : String, binary: Bool = true): Surprise<FileOutput, Error>
+	public static function write(path : String, binary: Bool = true): Promise<FileOutput>
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try Success(sys.io.File.write(path, binary))
@@ -188,7 +188,7 @@ class File {
 			))
 		);
 
-	public static function append(path : String, binary : Bool = true): Surprise<FileOutput, Error>
+	public static function append(path : String, binary : Bool = true): Promise<FileOutput>
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try Success(sys.io.File.append(path, binary))
@@ -196,7 +196,7 @@ class File {
 			))
 		);
 
-	public static function copy(srcPath: String, dstPath: String): Surprise<Noise, Error>
+	public static function copy(srcPath: String, dstPath: String): Promise<Noise>
 		return Future.async(function(done)
 			tink.RunLoop.current.work(function () done(
 				try {
@@ -209,13 +209,13 @@ class File {
 	
 	#else
 	
-	public static function getContent(path: String): Surprise<String, Error>
+	public static function getContent(path: String): Promise<String>
 		return Future.sync(
 			try Success(sys.io.File.getContent(path))
 			catch(e: Dynamic) Failure(new Error('$e'))
 		);
 
-	public static function saveContent(path: String, content: String): Surprise<Noise, Error>
+	public static function saveContent(path: String, content: String): Promise<Noise>
 		return Future.sync(
 			try {
 				sys.io.File.saveContent(path, content);
@@ -224,13 +224,13 @@ class File {
 			catch(e: Dynamic) Failure(new Error('$e'))
 		);
 
-	public static function getBytes(path: String): Surprise<haxe.io.Bytes, Error>
+	public static function getBytes(path: String): Promise<haxe.io.Bytes>
 		return Future.sync(
 			try Success(sys.io.File.getBytes(path))
 			catch(e: Dynamic) Failure(new Error('$e'))
 		);
 
-	public static function saveBytes(path: String, bytes: haxe.io.Bytes): Surprise<Noise, Error>
+	public static function saveBytes(path: String, bytes: haxe.io.Bytes): Promise<Noise>
 		return Future.sync(
 			try {
 				sys.io.File.saveBytes(path, bytes);
@@ -239,25 +239,25 @@ class File {
 			catch(e: Dynamic) Failure(new Error('$e'))
 		);
 
-	public static function read(path: String, binary = true): Surprise<FileInput, Error>
+	public static function read(path: String, binary = true): Promise<FileInput>
 		return Future.sync(
 			try Success(sys.io.File.read(path, binary))
 			catch(e: Dynamic) Failure(new Error('$e'))
 		);
 
-	public static function write(path : String, binary: Bool = true): Surprise<FileOutput, Error>
+	public static function write(path : String, binary: Bool = true): Promise<FileOutput>
 		return Future.sync(
 			try Success(sys.io.File.write(path, binary))
 			catch(e: Dynamic) Failure(new Error('$e'))
 		);
 
-	public static function append(path : String, binary : Bool = true): Surprise<FileOutput, Error>
+	public static function append(path : String, binary : Bool = true): Promise<FileOutput>
 		return Future.sync(
 			try Success(sys.io.File.append(path, binary))
 			catch(e: Dynamic) Failure(new Error('$e'))
 		);
 
-	public static function copy(srcPath: String, dstPath: String): Surprise<Noise, Error>
+	public static function copy(srcPath: String, dstPath: String): Promise<Noise>
 		return Future.sync(
 			try {
 				sys.io.File.copy(srcPath, dstPath);
