@@ -2,12 +2,11 @@
 
 import buddy.SingleSuite;
 import haxe.io.Bytes;
-import tink.io.Buffer;
-import tink.io.Source;
 
 import asys.FileSystem;
 import asys.io.File;
 
+using tink.io.Source;
 using buddy.Should;
 using tink.CoreApi;
 
