@@ -1,0 +1,5 @@
+{
+    "haxe.displayConfigurations": [
+        ["tests.hxml","-lib","travix","-lib","hxnodejs","-lib","asys","-js","bin/node/tests.js"]
+    ]
+}
