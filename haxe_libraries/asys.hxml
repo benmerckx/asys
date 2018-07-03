@@ -1,0 +1,5 @@
+-cp .
+-D asys
+
+-lib tink_macro
+-lib tink_io

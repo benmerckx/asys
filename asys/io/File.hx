@@ -7,14 +7,14 @@ import js.node.fs.Stats;
 import asys.io.FileInput;
 import asys.io.FileOutput;
 import tink.io.Sink;
-import tink.io.Source;
 
+using tink.io.Source;
 using tink.CoreApi;
 
 
 class File {
 
-	public static function readStream(path: String, binary = true): Source {
+	public static function readStream(path: String, binary = true): RealSource {
 		#if nodejs
 		return Source.ofNodeStream('asys read stream', Fs.createReadStream(path));
 		#else
@@ -22,7 +22,7 @@ class File {
 		#end
 	}
 
-	public static function writeStream(path : String, binary: Bool = true): Sink {
+	public static function writeStream(path : String, binary: Bool = true): RealSink {
 		#if nodejs
 		return Sink.ofNodeStream('asys write stream', Fs.createWriteStream(path));
 		#else
