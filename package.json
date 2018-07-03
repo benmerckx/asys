@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "postinstall": "lix download"
+  },
+  "devDependencies": {
+    "haxe-travix": "^0.11.2",
+    "lix": "^15.3.0-alpha.1"
+  }
+}

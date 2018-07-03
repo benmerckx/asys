@@ -1,29 +1,22 @@
 sudo: required
 dist: trusty
 
-language: haxe
+language: node_js
+node_js: 6
 
 os:
   - linux
   - osx
-  
-haxe:
-  - "3.4.2"
-  - development
-  
-matrix:
-  allow_failures:
-    - haxe: development
-    
+
 install:
-  - haxelib install travix
-  - haxelib run travix install
+  - yarn
 
 script:
-  - haxelib run travix neko
-  - haxelib run travix node
-  - haxelib run travix python
-  - haxelib run travix java
-  - haxelib run travix php
-  - haxelib run travix cpp
-  - haxelib run travix cs
+  - yarn travix neko
+  - yarn travix node
+  - yarn travix python
+  # - yarn travix java
+  - yarn travix php
+  - yarn travix cpp
+  # - yarn travix cs
+  # - yarn travix lua
