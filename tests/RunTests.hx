@@ -69,6 +69,13 @@ class RunTests extends SingleSuite {
 					});
 				});
 				
+				it('createDirectory recursive', function(done) {
+					FileSystem.createDirectory('tests-dir2/sub-dir').handle(function(response) {
+						response.should.equal(Success(Noise));
+						done();
+					});
+				});
+				
 				it('deleteFile', function(done) {
 					FileSystem.deleteFile('test2.txt').handle(function(response) {
 						response.should.equal(Success(Noise));
@@ -87,6 +94,15 @@ class RunTests extends SingleSuite {
 							default: fail();
 						});
 					});
+				});
+				
+				it('deleteDirectory recursive', function(done) {
+					File.saveContent('tests-dir2/sub-dir/foo.txt', 'foo')
+						.next(function(_) return FileSystem.deleteDirectory('tests-dir2'))
+						.handle(function(response) {
+							response.should.equal(Success(Noise));
+							done();
+						});
 				});
 				
 				it('readDirectory', function(done) {

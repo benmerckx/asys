@@ -2,6 +2,7 @@ package asys;
 
 #if nodejs
 import js.node.Fs;
+import js.node.Path;
 import js.node.fs.Stats;
 #end
 import asys.FileStat;
@@ -10,7 +11,7 @@ using tink.CoreApi;
 
 class FileSystem {
 	
-	#if node
+	#if nodejs
 
 	public static function exists(path: String): Future<Bool> {
 		var trigger = Future.trigger();
@@ -82,14 +83,23 @@ class FileSystem {
 	}
 
 	public static function createDirectory(path: String): Promise<Noise> {
-		var trigger = Future.trigger();
-		Fs.mkdir(path, function(err: js.Error)
-			trigger.trigger(switch err {
-				case null: Success(Noise);
-				default: Failure(Error.withData(err.message, err));
-			})
-		);
-		return trigger.asFuture();
+		return Future.async(function(cb) {
+			isDirectory(path).handle(function(isDir) {
+				if(isDir)
+					cb(Success(Noise));
+				else {
+					function mkdir(path)
+						return Future.async(function(cb) {
+							Fs.mkdir(path, function(err) cb(err == null ? Success(Noise) : Failure(Error.ofJsError(err))));
+						});
+						
+					mkdir(path).handle(function(o) switch o {
+						case Failure(e) if(e.data.code == 'ENOENT'): createDirectory(Path.dirname(path)).next(function(_) return mkdir(path)).handle(cb);
+						case _: cb(o);
+					});
+				} 
+			});
+		}, false);
 	}
 
 	public static function deleteFile(path: String): Promise<Noise> {
@@ -104,7 +114,19 @@ class FileSystem {
 	}
 
 	public static function deleteDirectory(path: String): Promise<Noise> {
-		return deleteFile(path);
+		return Future.async(function(cb) {	
+			readDirectory(path)
+				.next(function(files) {
+					return Promise.inParallel([for(file in files) {
+						var cur = '$path/$file';
+						isDirectory(cur).next(function(isDir) return isDir ? deleteDirectory(cur) : deleteFile(cur));
+					}]);
+				})
+				.next(function(_) return Future.async(function(cb1) {
+					Fs.rmdir(path, function(err) cb(err == null ? Success(Noise) : Failure(Error.ofJsError(err))));
+				}))
+				.handle(cb);
+		}, false);
 	}
 
 	public static function readDirectory(path: String): Promise<Array<String>> {
