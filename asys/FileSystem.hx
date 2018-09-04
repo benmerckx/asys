@@ -81,6 +81,17 @@ class FileSystem {
 		);
 		return trigger.asFuture();
 	}
+	
+	static function mkdir(path) {
+		return Future.async(function(_cb) {
+			Fs.mkdir(path, function(err:js.Error) _cb(
+				if(err == null || untyped err.code == 'EEXIST')
+					Success(Noise)
+				else
+					Failure(Error.ofJsError(err))
+			));
+		});
+	}
 
 	public static function createDirectory(path: String): Promise<Noise> {
 		return Future.async(function(cb) {
@@ -88,11 +99,6 @@ class FileSystem {
 				if(isDir)
 					cb(Success(Noise));
 				else {
-					function mkdir(path)
-						return Future.async(function(cb) {
-							Fs.mkdir(path, function(err) cb(err == null ? Success(Noise) : Failure(Error.ofJsError(err))));
-						});
-						
 					mkdir(path).handle(function(o) switch o {
 						case Failure(e) if(e.data.code == 'ENOENT'): createDirectory(Path.dirname(path)).next(function(_) return mkdir(path)).handle(cb);
 						case _: cb(o);
