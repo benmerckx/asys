@@ -12,8 +12,8 @@ typedef NativeSocket =
 	#end;
 
 class Socket {
-	public var input(default,null): Source;
-	public var output(default,null): Sink;
+	public var input(default,null): RealSource;
+	public var output(default,null): RealSink;
 	var socket: NativeSocket;
 	var host: Host;
 	var port: Int;
