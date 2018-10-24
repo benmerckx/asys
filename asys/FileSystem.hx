@@ -36,9 +36,12 @@ class FileSystem {
 		var trigger = Future.trigger();
 		Fs.stat(path, function(err, stat: Stats)
 			trigger.trigger(switch err {
-				case null: Success(cast { //changed
+				case null: Success( { //changed
 					gid: stat.gid,
 					uid: stat.uid,
+					// atime: (stat.atime:Date),
+					// mtime: (stat.mtime:Date),
+					// ctime: (stat.ctime:Date),
 					atime: stat.atime,
 					mtime: stat.mtime,
 					ctime: stat.ctime,

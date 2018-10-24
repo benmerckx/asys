@@ -75,7 +75,7 @@ class Host {
 		return 	php.Syntax.code
 		#if (php && haxe_ver<4.0) 
 		return  	untyped __php__
-	#end
+		#end
 				(		
 				"isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost'"
 				);
