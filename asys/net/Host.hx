@@ -70,10 +70,16 @@ class Host {
 	public static function localhost() : String {
 		#if nodejs
 		return js.node.Os.hostname();
-		#elseif (php && haxe_ver >= 4.0)
-		return php.Syntax.code("isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost'");
-		#elseif (php && haxe_ver < 4.0)
-		return untyped __php__("isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost'");
+		
+		#elseif (php && haxe_ver>=4.0)
+		return 	php.Syntax.code
+		#if (php && haxe_ver<4.0) 
+		return  	untyped __php__
+	#end
+				(		
+				"isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost'"
+				);
+				
 		#else
 		return sys.net.Host.localhost();
 		#end

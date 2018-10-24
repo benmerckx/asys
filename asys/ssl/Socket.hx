@@ -43,16 +43,8 @@ class Socket extends PlainSocket {
 		socket.socket = js.node.Tls.connect({socket: socket.socket});
 		socket.setStreams();
 		return cast socket;
-		#elseif (php && haxe_ver < 4.0)
-		return php.Syntax.code("
-		$smtp = $socket->socket->__s;
-			stream_set_blocking($smtp, true);
-			stream_context_set_option($smtp, 'ssl', 'verify_peer_name', false);
-			stream_socket_enable_crypto($smtp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
-			stream_set_blocking($smtp, false);
-			");
-		#elseif (php && haxe_ver < 4.0)
-		untyped __php__("
+		#elseif (php && haxe_ver < 4.0)	return php.Syntax.code	#elseif (php && haxe_ver < 4.0)	return untyped __php__
+		("
 			$smtp = $socket->socket->__s;
 			stream_set_blocking($smtp, true);
 			stream_context_set_option($smtp, 'ssl', 'verify_peer_name', false);
