@@ -1,6 +1,4 @@
 --macro Prepare.init()
--lib tink_core
--lib tink_io
 -lib buddy
 -cp tests
 -main RunTests
