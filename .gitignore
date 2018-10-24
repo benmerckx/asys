@@ -1,4 +1,5 @@
-/bin
+bin
+dump
 *.hxproj
-/dump
+*.txt
 node_modules
