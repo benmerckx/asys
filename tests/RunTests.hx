@@ -96,6 +96,7 @@ class RunTests extends SingleSuite {
 					});
 				});
 				
+				#if nodejs // FIXME: see https://github.com/HaxeFoundation/haxe/issues/5585
 				it('deleteDirectory recursive', function(done) {
 					File.saveContent('tests-dir2/sub-dir/foo.txt', 'foo')
 						.next(function(_) return FileSystem.deleteDirectory('tests-dir2'))
@@ -104,6 +105,7 @@ class RunTests extends SingleSuite {
 							done();
 						});
 				});
+				#end
 				
 				it('readDirectory', function(done) {
 					FileSystem.readDirectory('tests').handle(function(response) switch response {
