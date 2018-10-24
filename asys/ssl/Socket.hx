@@ -59,6 +59,7 @@ class Socket extends PlainSocket {
 			stream_socket_enable_crypto($smtp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
 			stream_set_blocking($smtp, false);
 		");
+		#end
 		return cast socket;
 		#elseif hxssl
 		var s = new HxsslSocket();
