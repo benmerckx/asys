@@ -14,7 +14,7 @@ using tink.CoreApi;
 class RunTests extends SingleSuite {
 	
 	public function new() {
-		#if php untyped __call__('ini_set', 'xdebug.max_nesting_level', 10000); #end
+		#if (php && (haxe_ver < 4)) untyped __call__('ini_set', 'xdebug.max_nesting_level', 10000); #end
 		describe('asys', {
 			describe('FileSystem', {
 				it('exists', function(done) {

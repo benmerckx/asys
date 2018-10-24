@@ -71,7 +71,7 @@ class Host {
 		#if nodejs
 		return js.node.Os.hostname();
 		#elseif php
-		return untyped __php__("isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost'");
+		return #if (haxe_ver >= 4) php.Syntax.code #else untyped __php__ #end ("isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost'");
 		#else
 		return sys.net.Host.localhost();
 		#end

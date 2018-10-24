@@ -44,7 +44,7 @@ class Socket extends PlainSocket {
 		socket.setStreams();
 		return cast socket;
 		#elseif php
-		untyped __php__("
+		#if (haxe_ver >= 4) php.Syntax.code #else untyped __php__ #end ("
 			$smtp = $socket->socket->__s;
 			stream_set_blocking($smtp, true);
 			stream_context_set_option($smtp, 'ssl', 'verify_peer_name', false);
