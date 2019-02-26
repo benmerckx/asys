@@ -39,9 +39,9 @@ class FileSystem {
 				case null: Success({
 					gid: stat.gid,
 					uid: stat.uid,
-					atime: stat.atime,
-					mtime: stat.mtime,
-					ctime: stat.ctime,
+					atime: (cast stat.atime:Date), // FIXME: https://github.com/HaxeFoundation/haxe/issues/7549
+					mtime: (cast stat.mtime:Date), // FIXME: https://github.com/HaxeFoundation/haxe/issues/7549
+					ctime: (cast stat.ctime:Date), // FIXME: https://github.com/HaxeFoundation/haxe/issues/7549
 					size: Std.int(stat.size),
 					dev : stat.dev,
 					ino: Std.int(stat.ino),
