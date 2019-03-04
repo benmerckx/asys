@@ -32,7 +32,7 @@ class FileOutput extends haxe.io.Output {
 
 	public function seek(length: Int, pos: FileSeek)
 		switch pos {
-			case FileSeek.SeekBegin: position = 0;
+			case FileSeek.SeekBegin: position = length;
 			case FileSeek.SeekCur: position += length;
 			case FileSeek.SeekEnd:
 				throw 'Not implemented';
