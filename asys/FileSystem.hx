@@ -105,7 +105,7 @@ class FileSystem {
 					});
 				} 
 			});
-		}, false);
+		}).eager();
 	}
 
 	public static function deleteFile(path: String): Promise<Noise> {
@@ -132,7 +132,7 @@ class FileSystem {
 					Fs.rmdir(path, function(err) cb(err == null ? Success(Noise) : Failure(Error.ofJsError(err))));
 				}))
 				.handle(cb);
-		}, false);
+		}).eager();
 	}
 
 	public static function readDirectory(path: String): Promise<Array<String>> {
