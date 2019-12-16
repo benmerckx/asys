@@ -35,12 +35,12 @@ class RunTests extends SingleSuite {
 				});
 				
 				it('stat', function(done) {
-          FileSystem.stat('test2.txt').handle(function(response) switch response {
-            case Success(res):
-              res.size.should.be(2);
-              done();
-            default: fail();
-          });
+					FileSystem.stat('test2.txt').handle(function(response) switch response {
+						case Success(res):
+							res.size.should.be(2);
+							done();
+						default: fail();
+					});
 				});
 				
 				it('fullPath', function(done) {
@@ -174,7 +174,14 @@ class RunTests extends SingleSuite {
 					});
 				});
 				
-				it('read');
+				it('read', function(done) {
+					File.readStream('test.txt').all().handle(function(o) switch o {
+						case Success(chunk):
+							chunk.length.should.beGreaterThan(0);
+							done();
+						case Failure(e): fail();
+					});
+				});
 				
 				afterAll({
 					FileSystem.deleteFile('test2.txt').handle(function(_) null);

@@ -2,3 +2,5 @@
 -lib buddy
 -cp tests
 -main RunTests
+
+-D no-deprecation-warnings
