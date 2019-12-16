@@ -174,6 +174,7 @@ class RunTests extends SingleSuite {
 					});
 				});
 				
+				#if nodejs
 				it('read', function(done) {
 					File.readStream('test.txt').all().handle(function(o) switch o {
 						case Success(chunk):
@@ -182,6 +183,7 @@ class RunTests extends SingleSuite {
 						case Failure(e): fail();
 					});
 				});
+				#end
 				
 				afterAll({
 					FileSystem.deleteFile('test2.txt').handle(function(_) null);
