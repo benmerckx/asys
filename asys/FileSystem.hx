@@ -6,6 +6,7 @@ import js.node.Path;
 import js.node.fs.Stats;
 #end
 import asys.FileStat;
+import #if haxe4 js.lib.Error #else js.Error #end as JsError;
 
 using tink.CoreApi;
 
@@ -57,7 +58,7 @@ class FileSystem {
 
 	public static function fullPath(relPath: String): Promise<String> {
 		var trigger = Future.trigger();
-		Fs.realpath(relPath, function(err: js.Error, path)
+		Fs.realpath(relPath, function(err: JsError, path)
 			trigger.trigger(switch err {
 				case null: Success(path);
 				default: Failure(Error.withData(err.message, err));
@@ -73,7 +74,7 @@ class FileSystem {
 
 	public static function isDirectory(path: String): Future<Bool> {
 		var trigger = Future.trigger();
-		Fs.stat(path, function(err: js.Error, stat: Stats)
+		Fs.stat(path, function(err: JsError, stat: Stats)
 			trigger.trigger(switch err {
 				case null: stat.isDirectory();
 				default: false;
@@ -84,7 +85,7 @@ class FileSystem {
 	
 	static function mkdir(path) {
 		return Future.async(function(_cb) {
-			Fs.mkdir(path, function(err:js.Error) _cb(
+			Fs.mkdir(path, function(err:JsError) _cb(
 				if(err == null || untyped err.code == 'EEXIST')
 					Success(Noise)
 				else
@@ -110,7 +111,7 @@ class FileSystem {
 
 	public static function deleteFile(path: String): Promise<Noise> {
 		var trigger = Future.trigger();
-		Fs.unlink(path, function(err: js.Error)
+		Fs.unlink(path, function(err: JsError)
 			trigger.trigger(switch err {
 				case null: Success(Noise);
 				default: Failure(Error.withData(err.message, err));
@@ -137,7 +138,7 @@ class FileSystem {
 
 	public static function readDirectory(path: String): Promise<Array<String>> {
 		var trigger = Future.trigger();
-		Fs.readdir(path, function(err: js.Error, files)
+		Fs.readdir(path, function(err: JsError, files)
 			trigger.trigger(switch err {
 				case null: Success(files);
 				default: Failure(Error.withData(err.message, err));

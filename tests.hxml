@@ -3,4 +3,4 @@
 -cp tests
 -main RunTests
 
--D no-deprecation-warnings
+# -D no-deprecation-warnings

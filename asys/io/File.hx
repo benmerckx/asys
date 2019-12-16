@@ -7,6 +7,7 @@ import js.node.fs.Stats;
 import asys.io.FileInput;
 import asys.io.FileOutput;
 import tink.io.Sink;
+import #if haxe4 js.lib.Error #else js.Error #end as JsError;
 
 using tink.io.Source;
 using tink.CoreApi;
@@ -34,7 +35,7 @@ class File {
 
 	public static function getContent(path: String): Promise<String> {
 		var trigger = Future.trigger();
-		Fs.readFile(path, 'utf8', function(err: js.Error, data: String)
+		Fs.readFile(path, 'utf8', function(err: JsError, data: String)
 			trigger.trigger(switch err {
 				case null: Success(data);
 				default: Failure(Error.withData(err.message, err));
@@ -45,7 +46,7 @@ class File {
 
 	public static function saveContent(path: String, content: String): Promise<Noise> {
 		var trigger = Future.trigger();
-		Fs.writeFile(path, untyped content, 'utf8', function(err: js.Error)
+		Fs.writeFile(path, untyped content, 'utf8', function(err: JsError)
 			trigger.trigger(switch err {
 				case null: Success(Noise);
 				default: Failure(Error.withData(err.message, err));
@@ -56,7 +57,7 @@ class File {
 
 	public static function getBytes(path: String): Promise<haxe.io.Bytes> {
 		var trigger = Future.trigger();
-		Fs.readFile(path, function(err: js.Error, buffer: js.node.Buffer)
+		Fs.readFile(path, function(err: JsError, buffer: js.node.Buffer)
 			trigger.trigger(switch err {
 				case null: Success(buffer.hxToBytes());
 				default: Failure(Error.withData(err.message, err));
@@ -67,7 +68,7 @@ class File {
 
 	public static function saveBytes(path: String, bytes: haxe.io.Bytes): Promise<Noise> {
 		var trigger = Future.trigger();
-		Fs.writeFile(path, js.node.Buffer.hxFromBytes(bytes), function(err: js.Error)
+		Fs.writeFile(path, js.node.Buffer.hxFromBytes(bytes), function(err: JsError)
 			trigger.trigger(switch err {
 				case null: Success(Noise);
 				default: Failure(Error.withData(err.message, err));
@@ -78,7 +79,7 @@ class File {
 
 	public static function read(path: String, binary = true): Promise<FileInput> {
 		var trigger = Future.trigger();
-		Fs.open(path, 'r', function(err: js.Error, fd: Int)
+		Fs.open(path, 'r', function(err: JsError, fd: Int)
 			trigger.trigger(switch err {
 				case null: Success(new FileInput(fd));
 				default: Failure(Error.withData(err.message, err));
@@ -89,7 +90,7 @@ class File {
 
 	public static function write(path : String, binary: Bool = true): Promise<FileOutput> {
 		var trigger = Future.trigger();
-		Fs.open(path, 'w', function(err: js.Error, fd: Int)
+		Fs.open(path, 'w', function(err: JsError, fd: Int)
 			trigger.trigger(switch err {
 				case null: Success(new FileOutput(fd));
 				default: Failure(Error.withData(err.message, err));
@@ -100,7 +101,7 @@ class File {
 
 	public static function append(path : String, binary : Bool = true): Promise<FileOutput> {
 		var trigger = Future.trigger();
-		Fs.open(path, 'a', function(err: js.Error, fd: Int)
+		Fs.open(path, 'a', function(err: JsError, fd: Int)
 			trigger.trigger(switch err {
 				case null: Success(new FileOutput(fd));
 				default: Failure(Error.withData(err.message, err));
@@ -112,7 +113,7 @@ class File {
 	public static function copy(srcPath: String, dstPath: String): Promise<Noise> {
 		var trigger = Future.trigger();
 		var called = false;
-		function done(?err: js.Error) {
+		function done(?err: JsError) {
 			if (called) return;
 			trigger.trigger(switch err {
 				case null: Success(Noise);
