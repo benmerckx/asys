@@ -4,9 +4,9 @@ package asys;
 import js.node.Fs;
 import js.node.Path;
 import js.node.fs.Stats;
+import #if haxe4 js.lib.Error #else js.Error #end as JsError;
 #end
 import asys.FileStat;
-import #if haxe4 js.lib.Error #else js.Error #end as JsError;
 
 using tink.CoreApi;
 

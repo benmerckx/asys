@@ -3,11 +3,11 @@ package asys.io;
 #if nodejs
 import js.node.Fs;
 import js.node.fs.Stats;
+import #if haxe4 js.lib.Error #else js.Error #end as JsError;
 #end
 import asys.io.FileInput;
 import asys.io.FileOutput;
 import tink.io.Sink;
-import #if haxe4 js.lib.Error #else js.Error #end as JsError;
 
 using tink.io.Source;
 using tink.CoreApi;
