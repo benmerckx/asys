@@ -5,6 +5,8 @@ import haxe.io.Bytes;
 
 import asys.FileSystem;
 import asys.io.File;
+import asys.net.Socket;
+import asys.net.Host;
 
 using tink.io.Source;
 using buddy.Should;
@@ -14,8 +16,24 @@ using tink.CoreApi;
 class RunTests extends SingleSuite {
 	
 	public function new() {
-		#if (php && (haxe_ver < 4)) untyped __call__('ini_set', 'xdebug.max_nesting_level', 10000); #end
 		describe('asys', {
+
+			describe('socket', {
+				it('upgrades', done -> {
+					var socket = new Socket();
+					socket.connect(new Host('ssl0.ovh.net'), 465).handle(
+						res -> switch res {
+							case Success(_):
+								asys.ssl.Socket.upgrade(socket);
+								done();
+							case Failure(e):
+								throw e;
+								done();
+						}
+					);
+				});
+			});
+
 			describe('FileSystem', {
 				it('exists', function(done) {
 					FileSystem.exists('haxelib.json').handle(function(response) {
