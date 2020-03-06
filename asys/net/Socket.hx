@@ -8,6 +8,7 @@ using tink.CoreApi;
 
 typedef NativeSocket =
 	#if nodejs js.node.net.Socket
+	#elseif php php.net.Socket
 	#else sys.net.Socket
 	#end;
 

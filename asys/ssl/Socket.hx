@@ -39,7 +39,7 @@ class Socket extends PlainSocket {
 		socket.setStreams();
 		return cast socket;
 		#elseif php
-		var resource = socket.socket.stream;
+		var resource = socket.socket.__s;
 		php.Global.stream_set_blocking(resource, true);
 		php.Syntax.code('stream_socket_enable_crypto({0}, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)', resource);
 		php.Global.stream_set_blocking(resource, false);
