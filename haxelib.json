@@ -7,9 +7,9 @@
   "version": "0.4.0",
   "releasenote": "",
   "contributors": ["benmerckx"],
+  "classPath": "src",
   "dependencies": {
     "tink_core": "",
-    "tink_macro": "",
     "tink_io": "",
     "tink_streams": ""
   }

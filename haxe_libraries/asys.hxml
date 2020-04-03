@@ -1,5 +1,4 @@
--cp .
+-cp src
 -D asys
 
--lib tink_macro
 -lib tink_io
