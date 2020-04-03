@@ -57,7 +57,7 @@ class Host {
 		return Future.sync(Error.catchExceptions(instance.reverse));
 		#else
 		var trigger = Future.trigger();
-		js.node.Dns.reverse(address, function(err: js.Error, res)
+		js.node.Dns.reverse(address, function(err: js.lib.Error, res)
 			trigger.trigger(switch err {
 				case null: Success(res.pop());
 				default: Failure(Error.withData(err.message, err));

@@ -53,7 +53,7 @@ class Socket {
 		#else
 		var trigger = Future.trigger();
 		setStreams();
-		socket.on('error', function(err: js.Error)
+		socket.on('error', function(err: js.lib.Error)
 		 	trigger.trigger(Failure(Error.withData(err.message, err)))
 		);
 		socket.on('connect', function()

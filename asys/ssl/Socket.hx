@@ -98,7 +98,7 @@ class Socket extends PlainSocket {
 		var trigger = Future.trigger();
 		socket = js.node.Tls.connect(port, host.host);
 		setStreams();
-		socket.on('error', function(err: js.Error)
+		socket.on('error', function(err: js.lib.Error)
 		 	trigger.trigger(Failure(Error.withData(err.message, err)))
 		);
 		socket.on('connect', function()

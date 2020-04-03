@@ -1,5 +1,5 @@
--D buddy=0.0.0
-# @install: lix --silent download "gh://github.com/ciscoheat/buddy#674ba4914a0178e01877eaa1e171003ed000ce9e" into buddy/0.0.0/github/674ba4914a0178e01877eaa1e171003ed000ce9e
--cp ${HAXE_LIBCACHE}/buddy/0.0.0/github/674ba4914a0178e01877eaa1e171003ed000ce9e/src
--lib promhx
+# @install: lix --silent download "haxelib:/buddy#2.10.4" into buddy/2.10.4/haxelib
 -lib asynctools
+-lib promhx
+-cp ${HAXE_LIBCACHE}/buddy/2.10.4/haxelib/
+-D buddy=2.10.4

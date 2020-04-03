@@ -12,7 +12,8 @@ import tink.io.Sink;
 using tink.io.Source;
 using tink.CoreApi;
 
-
+@:access(sys.io.FileInput)
+@:access(sys.io.FileOutput)
 class File {
 
 	public static function readStream(path: String, binary = true): RealSource {
