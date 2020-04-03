@@ -18,6 +18,7 @@ class RunTests extends SingleSuite {
 	public function new() {
 		describe('asys', {
 
+			#if !python
 			describe('socket', {
 				it('upgrades', done -> {
 					var socket = new Socket();
@@ -33,6 +34,7 @@ class RunTests extends SingleSuite {
 					);
 				});
 			});
+			#end
 
 			describe('FileSystem', {
 				it('exists', function(done) {
