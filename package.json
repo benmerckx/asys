@@ -8,6 +8,6 @@
     "lix": "^15.8.9"
   },
   "dependencies": {
-    "bestzip": "^2.1.5"
+    "bestzip": "^2.1.7"
   }
 }
