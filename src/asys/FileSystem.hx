@@ -101,7 +101,7 @@ class FileSystem {
 					cb(Success(Noise));
 				else {
 					mkdir(path).handle(function(o) switch o {
-						case Failure(e) if(e.data.code == 'ENOENT'): createDirectory(Path.dirname(path)).next(function(_) return mkdir(path)).handle(cb);
+						case Failure(e) if((cast e.data).code == 'ENOENT'): createDirectory(Path.dirname(path)).next(function(_) return mkdir(path)).handle(cb);
 						case _: cb(o);
 					});
 				} 
